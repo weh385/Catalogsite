@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catalog Site</title>
+
+  <!-- Prevent search engine indexing -->
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Items for Sale</h1>
+    <p>Category test page using items.js</p>
+  </header>
+
+  <main>
+    <!-- CATEGORY SELECTION PAGE -->
+    <section id="category-page">
+
+      <section class="card">
+        <h2>Welcome</h2>
+
+        <p>
+          I am in the process of down sizing significantly and would like to dispose of the items listed in the categories below.
+          If you are interested in any items, please contact me personally by phone, text, or email at the address below.
+          I will try to answer inquiries promptly but that may be a day or so.
+        </p>
+      </section>
+
+      <section class="card contact">
+        <p><strong>Phone or text:</strong> 828-798-8738</p>
+        <p><strong>Email:</strong> xxxxxx@xxx.com</p>
+      </section>
+
+      <section class="card">
+        <h2>Categories Found in items.js</h2>
+
+        <p class="note">
+          Choose one category.
+        </p>
+
+        <div id="status-message" class="status-message">
+          Loading categories...
+        </div>
+
+        <form id="category-form" class="category-list"></form>
+
+        <p id="selected-message" class="selected-message"></p>
+      </section>
+
+      <section class="card private-note">
+        <p>
+          This is a private listing/catalog site. Items are sold by personal contact only.
+        </p>
+      </section>
+
+    </section>
+
+
+    <!-- ITEM DISPLAY PAGE -->
+    <section id="items-page" class="card" style="display:none;">
+
+      <div class="item-page-header">
+        <h2 id="items-page-title">Items</h2>
+
+        <button onclick="showCategoryPage()">
+          Category Selection
+        </button>
+      </div>
+
+      <div id="item-results" class="item-results"></div>
+
+    </section>
+  </main>
+
+
+  <!-- items.js must be in same folder as index.html -->
+  <script src="./items.js"></script>
+
+
+  <script>
+
+    function formatCategoryName(category) {
+      return category
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
+
+    function countItemsInCategory(category) {
+      return ITEMS.filter(item => item.category === category).length;
+    }
+
+
+    function buildCategoryList() {
+
+      const statusMessage = document.getElementById('status-message');
+      const categoryForm = document.getElementById('category-form');
+      const selectedMessage = document.getElementById('selected-message');
+
+
+      if (typeof ITEMS === 'undefined' || !Array.isArray(ITEMS)) {
+
+        statusMessage.textContent = 'ERROR: items.js was not loaded, or ITEMS was not found.';
+        statusMessage.className = 'status-message error';
+
+        return;
+      }
+
+
+      const categories = [];
+
+      ITEMS.forEach(item => {
+
+        if (item.category && !categories.includes(item.category)) {
+          categories.push(item.category);
+        }
+      });
+
+
+      if (categories.length === 0) {
+
+        statusMessage.textContent = 'items.js loaded, but no categories were found.';
+        statusMessage.className = 'status-message error';
+
+        return;
+      }
+
+
+      statusMessage.textContent = 'SUCCESS: items.js loaded. Categories found: ' + categories.length;
+      statusMessage.className = 'status-message success';
+
+
+      categories.forEach(category => {
+
+        const label = document.createElement('label');
+        label.className = 'category-row';
+
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'category';
+        radio.value = category;
+
+
+        const text = document.createElement('span');
+
+        text.textContent =
+          formatCategoryName(category) +
+          ' (' + countItemsInCategory(category) + ')';
+
+
+        radio.addEventListener('change', () => {
+
+          selectedMessage.textContent =
+            'Selected category: ' + formatCategoryName(category);
+
+          displayItems(category);
+        });
+
+
+        label.appendChild(radio);
+        label.appendChild(text);
+
+        categoryForm.appendChild(label);
+      });
+    }
+
+
+    function displayItems(category) {
+
+      document.getElementById('category-page').style.display = 'none';
+      document.getElementById('items-page').style.display = 'block';
+
+
+      document.getElementById('items-page-title').textContent =
+        formatCategoryName(category);
+
+
+      const itemResults = document.getElementById('item-results');
+
+
+      const matchingItems = ITEMS.filter(item =>
+        item.category === category
+      );
+
+
+      if (matchingItems.length === 0) {
+
+        itemResults.innerHTML = '<p>No items found in this category.</p>';
+
+        return;
+      }
+
+
+      let html = '<div class="item-list">';
+
+
+      matchingItems.forEach(item => {
+
+        const soldLabel =
+          item.status && item.status.toLowerCase() === 'sold'
+            ? '<span class="sold-label">Sold</span>'
+            : '';
+
+
+        html += `
+          <article class="item-card">
+
+            <img
+              src="images/${item.image}"
+              alt="${item.name}"
+              loading="lazy"
+            >
+
+            <div class="item-details">
+
+              <h3>
+                ${item.name}
+                ${soldLabel}
+              </h3>
+
+              <p>${item.description}</p>
+
+              <p class="price">
+                Price: $${item.price}
+              </p>
+
+            </div>
+
+          </article>
+        `;
+      });
+
+
+      html += '</div>';
+
+      itemResults.innerHTML = html;
+    }
+
+
+    function showCategoryPage() {
+
+      document.getElementById('items-page').style.display = 'none';
+      document.getElementById('category-page').style.display = 'block';
+    }
+
+
+    buildCategoryList();
+
+  </script>
+</body>
+</html>

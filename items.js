@@ -3,17 +3,54 @@ const ITEMS = [
     category: "hand-tools",
     image: "stanley-plane.jpg",
     name: "Stanley #4 Smoothing Plane",
-    description: "Good condition. Rusty. Not Sharp.",
+    description: "Good condition. No rust. Sharp.",
     price: "50.00",
     status: "available"
   },
+{
+    category: "animals",
+    image: "luca.jpg",
+    name: "Luca",
+    description: "Kim and John's Dog.",
+    price: "10000.00",
+    status: "sold"
+  },
+
+
+{
+    category: "animals",
+    image: "dog1.jpg",
+    name: "Cocker Spaniel",
+    description: "Good dog.  Well trained.",
+    price: "10000.00",
+    status: "sold"
+  },
+{
+    category: "animals",
+    image: "dog2.jpg",
+    name: "Clulmber Spaniel",
+    description: "Fat, lazy,slow.  Best dog I ever had.",
+    price: "10000.00",
+    status: ""
+  },
+
+
+  {
+    category: "puzzles",
+    image: "DogPuzzle",
+    name: "Dog Puzzle",
+    description: "Hard. Challenging. One piece missing.",
+    price: "1.00",
+    status: ""
+  },
+
   {
     category: "power-tools",
     image: "table-saw.jpg",
     name: "Example Power Tool",
-    description: "Old Craftsman  10 in blade.",
+    description: "Replace this with the item description.",
     price: "100.00",
-    status: "available"
+    status: "sold"
   },
   {
     category: "wood-supplies",
@@ -21,7 +58,7 @@ const ITEMS = [
     name: "Example Wood or Supply Item",
     description: "Replace this with the item description.",
     price: "25.00",
-    status: "sold"
+    status: "available"
   },
   {
     category: "art",
@@ -37,14 +74,6 @@ const ITEMS = [
     name: "Example Household Item",
     description: "Replace this with the item description.",
     price: "40.00",
-    status: "sold"
-  },
-  {
-    category: "hand-tools",
-    image: "Dog1.jpg",
-    name: "Cocker Spaniel",
-    description: "Good dog.  Well trained.",
-    price: "50.00",
     status: "available"
   },
   {
@@ -53,30 +82,6 @@ const ITEMS = [
     name: "Example Other Item",
     description: "Replace this with the item description.",
     price: "20.00",
-    status: "available"
-  },
-  {
-    category: "art",
-    image: "stanley-plane.jpg",
-    name: "Stanley #4 Smoothing Plane",
-    description: "Good condition. No Rust Dull as hell.",
-    price: "50.00",
-    status: "available"
-  },
-  {
-    category: "hand-tools",
-    image: "dog2.jpg",
-    name: "Clumber",
-    description: "Slow, lazy, best dog I ever had",
-    price: "5000.00",
-    status: "available"
-  },
-  {
-    category: "art",
-    image: "stanley-plane.jpg",
-    name: "Stanley #4 Smoothing Plane",
-    description: "Good condition. Shar[].",
-    price: "50.00",
     status: "available"
   }
 ];
